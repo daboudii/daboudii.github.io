@@ -1,1 +1,39 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carte de Pandokh</title>
+    <link
+      href="https://viglino.github.io/font-gis/css/font-gis.css"
+      rel="stylesheet"
+    />
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="controls" class="ol-control">
+      <button id="length-measure" title="Measure une distance">
+        <i class="fg-measure"></i>
+      </button>
+      <button id="area-measure" title="Measure un aire">
+        <i class="fg-polygon-pt"></i>
+      </button>
+
+      <button class="hidden" id="layer-switcher" title="Ouvrir cartes options">
+        <i class="fg-layer-stack"></i>
+      </button>
+    </div>
+
+    <div id="layer-switcher-popup" class="hidden">
+      <!-- TODO // ex. Route de la compagnie / Frontiere des regions
+      <h2>Detail de la carte</h2>
+      <ul id="layer-switcher-detail"></ul> -->
+      <h2>Les cartes du monde</h2>
+      <ul id="layer-switcher-cartes"></ul>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
