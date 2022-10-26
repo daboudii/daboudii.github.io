@@ -171,6 +171,7 @@ const map = new Map({
   controls: defaultControls({attribution: false}).extend([scaleControl, attribution]),
   target: 'map',
   layers: [
+    pyramid,
     drawVector
   ],
   // view: source.getView(),
@@ -198,7 +199,7 @@ map.getViewport().addEventListener('mouseout', function () {
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/out.tif')
+fetch('../images/layers/World-Pandokh_Lucien-Maine-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const source = new GeoTIFF({
@@ -222,7 +223,7 @@ fetch('../images/layers/out.tif')
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/03-Caupona_Elyot-Veillon.tif')
+fetch('../images/layers/03-Caupona_Elyot-Veillon-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const sourceCaupona = new GeoTIFF({
@@ -248,7 +249,7 @@ fetch('../images/layers/03-Caupona_Elyot-Veillon.tif')
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/04-Kar-Karpar_Noob-Noob.tif')
+fetch('../images/layers/04-Kar-Karpar_Noob-Noob-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const sourceKarKarpar = new GeoTIFF({
@@ -273,7 +274,7 @@ fetch('../images/layers/04-Kar-Karpar_Noob-Noob.tif')
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/04-Kar-Karpar-2_Noob-Noob.tif')
+fetch('../images/layers/04-Kar-Karpar-2_Noob-Noob-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const sourceKarKarpar2 = new GeoTIFF({
@@ -298,7 +299,7 @@ fetch('../images/layers/04-Kar-Karpar-2_Noob-Noob.tif')
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/Kuchtei_Map_Dedale.tif')
+fetch('../images/layers/Kuchtei_Map_Dedale-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const sourceKuchtei = new GeoTIFF({
@@ -323,7 +324,7 @@ fetch('../images/layers/Kuchtei_Map_Dedale.tif')
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/06-Ir_Elyot-Veillon.tif')
+fetch('../images/layers/06-Ir_Elyot-Veillon-COG.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const sourceIr = new GeoTIFF({
