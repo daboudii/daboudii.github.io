@@ -171,7 +171,6 @@ const map = new Map({
   controls: defaultControls({attribution: false}).extend([scaleControl, attribution]),
   target: 'map',
   layers: [
-    pyramid,
     drawVector
   ],
   // view: source.getView(),
