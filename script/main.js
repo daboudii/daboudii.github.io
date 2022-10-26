@@ -198,7 +198,7 @@ map.getViewport().addEventListener('mouseout', function () {
  * Fetch the layer using blob because of Firefox issue 
  * @see. https://github.com/openlayers/openlayers/issues/13703
  */
-fetch('../images/layers/World-Pandokh_Lucien-Maine.tif')
+fetch('../images/layers/out.tif')
   .then((response) => response.blob())
   .then((blob) => {
     const source = new GeoTIFF({
