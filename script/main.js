@@ -2,6 +2,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import { addProjection } from 'ol/proj';
 import Projection from 'ol/proj/Projection';
+import Graticule from 'ol/layer/Graticule';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import VectorSource from 'ol/source/Vector';
 import TileLayer from 'ol/layer/WebGLTile';
@@ -15,6 +16,11 @@ import {LineString, Polygon} from 'ol/geom';
 import {getArea, getLength} from 'ol/sphere';
 import { unByKey } from 'ol/Observable';
 
+import { register } from 'ol/proj/proj4';
+import proj4 from 'proj4';
+
+proj4.defs("EPSG:3059","+proj=tmerc +lat_0=0 +lon_0=24 +k=0.9996 +x_0=500000 +y_0=-6000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
+register(proj4);
 
 // By default OpenLayers does not know about the EPSG:3059 (Latvia) projection.
 // So we create a projection instance for EPSG:3059 and pass it to
@@ -23,7 +29,7 @@ import { unByKey } from 'ol/Observable';
 
 // The extent is used to determine zoom level 0. Recommended values for a
 // projection's validity extent can be found at https://epsg.io/.
-const extent = [-6434154.2142309108749032,-3933797.6607446353882551, 5488868.5070438561961055,4497446.2815334592014551]
+let extent = [-6434154.2142309108749032,-3933797.6607446353882551, 5488868.5070438561961055,4497446.2815334592014551]
 const projection = new Projection({
   code: 'EPSG:3059',
   extent: extent,
@@ -163,6 +169,17 @@ const pointerMoveHandler = function (evt) {
   }
 };
 
+const params = new URLSearchParams(window.location.search);
+
+const name = params.get("region");
+
+console.log(name); //
+
+if (name) {
+  if (name === 'krog') {
+    extent = [ 4040002.5206730207, -2337597.1898587733, 4661262.408404181, -1943557.3536589174 ];
+  }
+}
 /**
  * Map to display Pandokh.
  * @type {Map}
@@ -171,7 +188,8 @@ const map = new Map({
   controls: defaultControls({attribution: false}).extend([scaleControl, attribution]),
   target: 'map',
   layers: [
-    drawVector
+    drawVector,
+    // new Graticule(),
   ],
   // view: source.getView(),
   view: new View({
@@ -179,7 +197,7 @@ const map = new Map({
     extent: extent,
     center: [0, 0],
     constrainOnlyCenter: true,
-    zoom: 3,
+    zoom: name === 'krog' ? 4 : 3,
     maxZoom: 20,
     minZoom: 1
   })
@@ -216,6 +234,7 @@ fetch('../images/layers/World-Pandokh_Lucien-Maine-COG.tif')
       source: source,
       zIndex: -1,
     }))
+createLayerSwitcher();
   });
 
 /**
@@ -316,6 +335,7 @@ fetch('../images/layers/Kuchtei_Map_Dedale-COG.tif')
       source: sourceKuchtei,
       minZoom: 8,
       zIndex: 8,
+      extent: [-14,-13,40,40]
     }))
   });
 
@@ -354,6 +374,8 @@ let draw; // global so we can remove it later
  */
 const formatLength = function (line) {
   const length = getLength(line);
+  console.log(getLength(line, {projection: projection}));
+  console.log(getLength(line));
   let output;
   if (length > 100) {
     output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
@@ -416,10 +438,12 @@ function addInteraction(type) {
 
     listener = sketch.getGeometry().on('change', function (evt) {
       const geom = evt.target;
+      console.log(geom.getExtent());
       let output;
       if (geom instanceof Polygon) {
         output = formatArea(geom);
         tooltipCoord = geom.getInteriorPoint().getCoordinates();
+        
       } else if (geom instanceof LineString) {
         output = formatLength(geom);
         tooltipCoord = geom.getLastCoordinate();
@@ -516,7 +540,9 @@ function createLayerSwitcher() {
   const layerPopup = document.getElementById('layer-switcher-popup')
   const layerSwitcherGroup = document.getElementById('layer-switcher-cartes');
 
+  console.log(map.getAllLayers());
   map.getAllLayers().forEach(layer => {
+    console.log(layer.getProperties().name);
     let layerElementList = document.createElement('li');
     layerSwitcherGroup.append(layerElementList);
     let layerElementName = document.createElement('span');
